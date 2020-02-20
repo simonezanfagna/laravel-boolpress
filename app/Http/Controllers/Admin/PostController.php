@@ -6,6 +6,8 @@ use App\Post;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use Illuminate\Support\Str;
+
 class PostController extends Controller
 {
     /**
@@ -27,9 +29,9 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-        //
+    public function create(){
+
+      return view('admin.posts.create');
     }
 
     /**
@@ -40,7 +42,27 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+      $datiForm = $request->all();
+
+      $post = new Post();
+
+      $post->fill($datiForm);
+
+      $slugOriginale = Str::slug($datiForm['title'],'-');
+      $slug = $slugOriginale;
+      //verifico se lo slug esiste
+      $postStessoSlug = Post::where('slug',$slug)->first();
+      $n = 1;
+      while (!empty($postStessoSlug)) {
+        $slug = $slugOriginale . '-' . $n;
+        $postStessoSlug = Post::where('slug',$slug)->first();
+        $n++;
+      }
+      $post->slug = $slug;
+
+      $post->save();
+
+      return redirect()->route('admin.posts.index');
     }
 
     /**
@@ -63,9 +85,12 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(Post $post)
-    {
-        //
+    public function edit(Post $post){
+
+
+      return view('admin.posts.edit',[
+        'post' => $post
+      ]);
     }
 
     /**
@@ -75,9 +100,13 @@ class PostController extends Controller
      * @param  \App\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
-    {
-        //
+    public function update(Request $request, Post $post){
+
+      $datiForm = $request->all();
+
+      $post->update($datiForm);
+
+      return redirect()->route('admin.posts.index');
     }
 
     /**
@@ -88,6 +117,7 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+      $post->delete();
+      return redirect()->route('admin.posts.index');
     }
 }

@@ -18,7 +18,7 @@ Route::get('/blog','PostController@index')->name('blogPublic');
 Route::get('/blog/{slug}','PostController@show')->name('blogShow');
 
 
-Auth::routes();
+Auth::routes(['register' => false]); //questo comando non permette la registrazione 
 
 
 Route::middleware('auth')->prefix('admin')->namespace('Admin')->name('admin.')->group(function (){

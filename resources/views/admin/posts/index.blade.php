@@ -3,8 +3,9 @@
 @section('content')
   <div class="container">
     <div class="row">
-      <div class="col-sm-12">
-        <h1>Gestione post admin</h1>
+      <div class="col-sm-12 clearfix">
+        <h1 class="d-inline-block">Gestione post admin</h1>
+        <a class="btn btn-success float-right" href="{{ route('admin.posts.create')}}">Nuova ricetta</a>
       </div>
     </div>
     <div class="row">
@@ -28,6 +29,12 @@
                 <td>{{$post->slug}}</td>
                 <td>
                   <a class="btn btn-info" href="{{ route('admin.posts.show', ['post' => $post->id]) }}">Visualizza</a>
+                  <a class="btn btn-warning" href="{{ route('admin.posts.edit', ['post' => $post->id]) }}">Modifica</a>
+                  <form class="d-inline block" action="{{route('admin.posts.destroy', ['post' => $post->id]) }}" method="post">
+                    @csrf
+                    @method('DELETE')
+                    <input type="submit" class="btn btn-danger" value="Cancella">
+                  </form>
                 </td>
               </tr>
             @empty
