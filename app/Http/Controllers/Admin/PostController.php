@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -45,8 +46,13 @@ class PostController extends Controller
       $datiForm = $request->all();
 
       $post = new Post();
-
       $post->fill($datiForm);
+
+      if (!empty($datiForm['cover_image_file'])) {
+        $cover_image = $datiForm['cover_image_file'];
+        $cover_image_path = Storage::put('uploads', $cover_image);
+        $post->cover_image = $cover_image_path;
+      }
 
       $slugOriginale = Str::slug($datiForm['title'],'-');
       $slug = $slugOriginale;
@@ -104,6 +110,12 @@ class PostController extends Controller
 
       $datiForm = $request->all();
 
+      if (!empty($datiForm['cover_image_file'])) {
+        $cover_image = $datiForm['cover_image_file'];
+        $cover_image_path = Storage::put('uploads', $cover_image);
+        $datiForm['cover_image'] = $cover_image_path;
+      }
+
       $post->update($datiForm);
 
       return redirect()->route('admin.posts.index');
@@ -117,6 +129,9 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+      $post_image = $post->cover_image;
+      Storage::delete($post_image);
+
       $post->delete();
       return redirect()->route('admin.posts.index');
     }

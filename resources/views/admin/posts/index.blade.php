@@ -5,7 +5,7 @@
     <div class="row">
       <div class="col-sm-12 clearfix">
         <h1 class="d-inline-block">Gestione post admin</h1>
-        <a class="btn btn-success float-right" href="{{ route('admin.posts.create')}}">Nuova ricetta</a>
+        <a class="btn btn-success float-right" href="{{ route('admin.posts.create')}}">Nuovo post</a>
       </div>
     </div>
     <div class="row">

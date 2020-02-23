@@ -23,7 +23,7 @@
                     <a class="nav-link" href="">{{ __('Chi siamo') }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="">{{ __('Contatti') }}</a>
+                    <a class="nav-link" href="{{route('contattiShow')}}">{{ __('Contatti') }}</a>
                 </li>
 
                 @auth
