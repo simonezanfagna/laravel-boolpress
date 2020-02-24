@@ -14,6 +14,7 @@
 Route::get('/', 'HomeController@index')->name('public.home');
 Route::get('/contatti','HomeController@contatti')->name('contattiShow');
 Route::post('/contatti','HomeController@contattiStore')->name('contattiStore');
+Route::get('/grazie','HomeController@grazie')->name('contattiGrazie');
 
 Route::get('/blog','PostController@index')->name('blogPublic');
 Route::get('/blog/{slug}','PostController@show')->name('blogShow');
