@@ -11,6 +11,14 @@
             <ul class="list-group list-group-flush">
               <li class="list-group-item">Autore: {{$post->author}}</li>
               <li class="list-group-item">Testo: {{$post->content}}</li>
+              <li class="list-group-item">
+                Categoria:
+                @if ($post->category_id)
+                  <a href="{{route('blogCategory', ['slug' => $post->category->slug ])}}">{{$post->category->name}}</a>
+                @else
+                  <span>-</span>
+                @endif
+              </li>
             </ul>
           </div>
         </div>

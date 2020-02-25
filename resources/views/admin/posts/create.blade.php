@@ -26,6 +26,14 @@
             <label for="cover_image_file">Immagine</label>
             <input type="file" class="form-control-file" id="cover_image_file" name="cover_image_file">
           </div>
+          <div class="form-group">
+            <select class="form-group" name="category_id" required>
+              <option value="">Seleziona categoria</option>
+              @foreach ($categories as $category)
+                <option value="{{$category->id}}">{{$category->name}}</option>
+              @endforeach
+            </select>
+          </div>
 
           <button class="btn btn-primary" type="submit" name="button">Crea</button>
         </form>

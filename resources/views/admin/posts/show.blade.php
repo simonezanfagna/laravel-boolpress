@@ -10,6 +10,7 @@
             <h5 class="card-title">Titolo: {{$post->title}}</h5>
             <ul class="list-group list-group-flush">
               <li class="list-group-item">Autore: {{$post->author}}</li>
+              <li class="list-group-item">Categoria: {{$post->category_id ? $post->category->name : '-'}}</li>
               <li class="list-group-item">Testo: {{$post->content}}</li>
               <li class="list-group-item">Slug: {{$post->slug}}</li>
               <li class="list-group-item">Creato il: {{$post->created_at}}</li>
