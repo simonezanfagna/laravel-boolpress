@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Post;
 use App\Category;
+use App\Tag;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -34,9 +35,11 @@ class PostController extends Controller
     public function create(){
 
       $categories = Category::all();
+      $tags = Tag::all();
 
       return view('admin.posts.create', [
-        'categories' => $categories
+        'categories' => $categories,
+        'tags' => $tags
       ]);
     }
 
@@ -49,7 +52,7 @@ class PostController extends Controller
     public function store(Request $request)
     {
       $datiForm = $request->all();
-
+      // dd($datiForm);
       $post = new Post();
       $post->fill($datiForm);
 
@@ -73,6 +76,12 @@ class PostController extends Controller
 
       $post->save();
 
+      if(!empty($datiForm['tag_id'])) {
+        // sono stati selezionati dei tag => li assegno al post
+        // sincronizzo il post creato con i tag scelti
+        $post->tags()->sync($datiForm['tag_id']);
+      }
+      
       return redirect()->route('admin.posts.index');
     }
 
@@ -99,10 +108,12 @@ class PostController extends Controller
     public function edit(Post $post){
 
       $categories = Category::all();
+      $tags = Tag::all();
 
       return view('admin.posts.edit',[
         'post' => $post,
-        'categories' => $categories
+        'categories' => $categories,
+        'tags' => $tags
       ]);
     }
 
@@ -125,6 +136,13 @@ class PostController extends Controller
 
       $post->update($datiForm);
 
+      if (!empty($datiForm['tag_id'])) {
+        $post->tags()->sync($datiForm['tag_id']);
+      }
+      else {
+        $post->tags()->sync([]);
+      }
+
       return redirect()->route('admin.posts.index');
     }
 
@@ -137,7 +155,14 @@ class PostController extends Controller
     public function destroy(Post $post)
     {
       $post_image = $post->cover_image;
-      Storage::delete($post_image);
+
+      if (!empty($post_image)) {
+        Storage::delete($post_image);
+      }
+
+      if (!empty($post->tags->isNotEmpty())) {
+        $post->tags()->sync([]);
+      }
 
       $post->delete();
       return redirect()->route('admin.posts.index');

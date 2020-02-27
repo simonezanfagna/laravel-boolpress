@@ -38,6 +38,17 @@
               @endforeach
             </select>
           </div>
+          @if ($tags->count() > 0)
+            <div class="from-group">
+              <p>Seleziona i tag per il post:</p>
+              @foreach ($tags as $tag)
+                <label class="mr-3">
+                  <input type="checkbox" name="tag_id[]" value="{{$tag->id}}" {{$post->tags->contains($tag) ? 'checked' : ''}}>
+                  {{$tag->name}}
+                </label>
+              @endforeach
+            </div>
+          @endif
 
           <button class="btn btn-primary" type="submit" name="button">Modifica</button>
         </form>

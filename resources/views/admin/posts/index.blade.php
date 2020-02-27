@@ -16,6 +16,7 @@
               <th scope="col">ID</th>
               <th scope="col">Titolo</th>
               <th scope="col">Categoria</th>
+              <th scope="col">Tag</th>
               <th scope="col">Autore</th>
               <th scope="col">Slug</th>
               <th scope="col">Azioni</th>
@@ -27,6 +28,13 @@
                 <th scope="row">{{$post->id}}</th>
                 <td>{{$post->title}}</td>
                 <td>{{$post->category_id ? $post->category->name : '-'}}</td>
+                <td>
+                  @forelse ($post->tags as $tag)
+                    {{$tag->name}}{{$loop->last ? '' : ','}}
+                  @empty
+                    <span>-</span>
+                  @endforelse
+                </td>
                 <td>{{$post->author}}</td>
                 <td>{{$post->slug}}</td>
                 <td>

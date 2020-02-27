@@ -26,16 +26,29 @@
             <label for="cover_image_file">Immagine</label>
             <input type="file" class="form-control-file" id="cover_image_file" name="cover_image_file">
           </div>
-          <div class="form-group">
-            <select class="form-group" name="category_id" required>
-              <option value="">Seleziona categoria</option>
-              @foreach ($categories as $category)
-                <option value="{{$category->id}}">{{$category->name}}</option>
+          @if ($categories->count() > 0)
+            <div class="form-group">
+              <select class="form-group" name="category_id" required>
+                <option value="">Seleziona categoria</option>
+                @foreach ($categories as $category)
+                  <option value="{{$category->id}}">{{$category->name}}</option>
+                @endforeach
+              </select>
+            </div>
+          @endif
+          @if ($tags->count() > 0)
+            <div class="from-group">
+              <p>Seleziona i tag per il post:</p>
+              @foreach ($tags as $tag)
+                <label class="mr-3">
+                  <input type="checkbox" name="tag_id[]" value="{{$tag->id}}">
+                  {{$tag->name}}
+                </label>
               @endforeach
-            </select>
-          </div>
+            </div>
+          @endif
 
-          <button class="btn btn-primary" type="submit" name="button">Crea</button>
+          <button class="btn btn-primary mt-4" type="submit" name="button">Crea</button>
         </form>
       </div>
     </div>

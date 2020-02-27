@@ -18,6 +18,18 @@
                 @else
                   <span>-</span>
                 @endif
+
+              </li>
+              <li class="list-group-item">
+                @if ($post->tags->isNotEmpty())
+                  <p>Tag:
+                    @foreach ($post->tags as $tag)
+                      <a href="{{route('blogTag', ['slug' => $tag->slug ])}}">{{$tag->name}}</a>{{$loop->last ? '' : ','}}
+                    @endforeach
+                  </p>
+                @else
+                  <p>Tag: -</p>
+                @endif
               </li>
             </ul>
           </div>
