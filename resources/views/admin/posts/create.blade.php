@@ -50,7 +50,7 @@
               <p>Seleziona i tag per il post:</p>
               @foreach ($tags as $tag)
                 <label class="mr-3">
-                  <input type="checkbox" name="tag_id[]" value="{{$tag->id}}" {{in_array($tag->id, old('tag_id')) ? 'checked' : ''}}>
+                  <input type="checkbox" name="tag_id[]" value="{{$tag->id}}" {{in_array($tag->id, old('tag_id', array())) ? 'checked' : ''}}>
                   {{$tag->name}}
                 </label>
               @endforeach
