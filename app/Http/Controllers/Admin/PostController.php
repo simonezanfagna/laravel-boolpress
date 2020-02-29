@@ -51,8 +51,15 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+      $request->validate([
+        'title' => 'required|max:255',
+        'author' => 'required|max:255',
+        'content' => 'required',
+        'cover_image_file' => 'image'
+      ]);
+
       $datiForm = $request->all();
-      // dd($datiForm);
+
       $post = new Post();
       $post->fill($datiForm);
 
@@ -81,7 +88,7 @@ class PostController extends Controller
         // sincronizzo il post creato con i tag scelti
         $post->tags()->sync($datiForm['tag_id']);
       }
-      
+
       return redirect()->route('admin.posts.index');
     }
 
@@ -125,6 +132,13 @@ class PostController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Post $post){
+      
+      $request->validate([
+        'title' => 'required|max:255',
+        'author' => 'required|max:255',
+        'content' => 'required',
+        'cover_image_file' => 'image'
+      ]);
 
       $datiForm = $request->all();
 
